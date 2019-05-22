@@ -14,7 +14,7 @@ class RouteServiceProvider extends ServiceProvider
      *
      * @var string
      */
-    protected $namespace = 'App\Http\Controllers';
+    protected $adminNamespace = 'App\Http\Controllers\Admin';
 
     /**
      * Define your route model bindings, pattern filters, etc.
@@ -35,9 +35,9 @@ class RouteServiceProvider extends ServiceProvider
      */
     public function map()
     {
-        $this->mapApiRoutes();
+        $this->adminApiRoutes();
 
-        $this->mapWebRoutes();
+//        $this->mapWebRoutes();
 
         //
     }
@@ -63,11 +63,11 @@ class RouteServiceProvider extends ServiceProvider
      *
      * @return void
      */
-    protected function mapApiRoutes()
+    protected function adminApiRoutes()
     {
-        Route::prefix('api')
+        Route::prefix('backend')
              ->middleware('api')
-             ->namespace($this->namespace)
-             ->group(base_path('routes/api.php'));
+             ->namespace($this->adminNamespace)
+             ->group(base_path('routes/admin/api.php'));
     }
 }
