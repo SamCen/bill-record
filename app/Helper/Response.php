@@ -80,3 +80,17 @@ if(!function_exists('notFound')){
         return apiResponse($res = [],$msg,$code,$header = []);
     }
 }
+
+if(!function_exists('unAuthorized')){
+    /**
+     * Author sam
+     * DateTime 2019-05-22 17:57
+     * Description:401返回
+     * @param string $msg
+     * @param int $code
+     * @return \Illuminate\Http\JsonResponse
+     */
+    function unAuthorized($msg = '认证失败',$code = Response::HTTP_UNAUTHORIZED){
+        return apiResponse($res = [],$msg,$code,$header = []);
+    }
+}
