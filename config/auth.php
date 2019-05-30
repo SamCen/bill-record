@@ -38,7 +38,7 @@ return [
 
     'guards' => [
         'admin'=>[
-            'driver' => 'token',
+            'driver' => 'jwt',
             'provider' => 'admins',
         ],
         'web' => [

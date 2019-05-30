@@ -28,4 +28,13 @@ class LoginRequest extends FormRequest
             'password'=>'required',
         ];
     }
+
+
+    public function messages()
+    {
+        return [
+            'account.required'=>'账号不能为空',
+            'password.required'=>'密码不能为空',
+        ];
+    }
 }

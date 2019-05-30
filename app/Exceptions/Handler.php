@@ -3,7 +3,15 @@
 namespace App\Exceptions;
 
 use Exception;
+use Illuminate\Auth\AuthenticationException;
+use Illuminate\Database\Eloquent\ModelNotFoundException;
 use Illuminate\Foundation\Exceptions\Handler as ExceptionHandler;
+use Illuminate\Http\Exceptions\ThrottleRequestsException;
+use Illuminate\Http\Response;
+use Illuminate\Support\Arr;
+use Illuminate\Support\Facades\App;
+use Illuminate\Validation\ValidationException;
+use Symfony\Component\HttpKernel\Exception\UnauthorizedHttpException;
 
 class Handler extends ExceptionHandler
 {
@@ -27,10 +35,12 @@ class Handler extends ExceptionHandler
     ];
 
     /**
-     * Report or log an exception.
-     *
-     * @param  \Exception  $exception
-     * @return void
+     * Author sam
+     * DateTime 2019-05-30 13:52
+     * Description:把异常传入基类处理方法
+     * @param Exception $exception
+     * @return mixed|void
+     * @throws Exception
      */
     public function report(Exception $exception)
     {
@@ -38,14 +48,76 @@ class Handler extends ExceptionHandler
     }
 
     /**
-     * Render an exception into an HTTP response.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @param  \Exception  $exception
-     * @return \Illuminate\Http\Response
+     * Author sam
+     * DateTime 2019-05-30 13:53
+     * Description:拦截异常
+     * @param \Illuminate\Http\Request $request
+     * @param Exception $exception
+     * @return \Illuminate\Http\Response|\Symfony\Component\HttpFoundation\Response
      */
     public function render($request, Exception $exception)
     {
+        if (
+            $exception instanceof AuthenticationException
+            ||
+            $exception instanceof UnauthorizedHttpException
+            ||
+            $exception instanceof ModelNotFoundException
+            ||
+            $exception instanceof ThrottleRequestsException
+            ||
+            $exception instanceof GeneralException
+            ||
+            $exception instanceof ValidationException
+        ) {
+            /**
+             * 主动抛出的异常
+             */
+            if ($exception instanceof GeneralException) {
+                return error($exception->getMessage());
+            }
+
+            /**
+             * 404异常
+             */
+            if ($exception instanceof ModelNotFoundException) {
+                return notFound();
+            }
+
+            /**
+             * 认证异常
+             */
+            if ($exception instanceof AuthenticationException) {
+                return unAuthorized();
+            }
+
+            /**
+             * token失效异常
+             */
+            if ($exception instanceof UnauthorizedHttpException) {
+                return unAuthorized();
+            }
+
+            /**
+             * 请求超频异常
+             */
+            if($exception instanceof ThrottleRequestsException) {
+                return error('请求次数太频繁');
+            }
+
+            /**
+             * 参数错误异常
+             */
+            if($exception instanceof ValidationException){
+                return error(Arr::first(Arr::collapse($exception->errors())),422);
+            }
+        }else{
+            $app = App::environment();
+            if($app != 'local'){
+                return error('服务器错误',500);
+            }
+        }
+
         return parent::render($request, $exception);
     }
 }

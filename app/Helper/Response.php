@@ -62,7 +62,7 @@ if(!function_exists('error')){
      * @param int $code
      * @return \Illuminate\Http\JsonResponse
      */
-    function error($msg = '请求失败',$res = null,$code = Response::HTTP_BAD_REQUEST){
+    function error($msg = '请求失败',$code = Response::HTTP_BAD_REQUEST,$res = null){
         return apiResponse($res,$msg,$code,$header = []);
     }
 }
@@ -76,7 +76,7 @@ if(!function_exists('notFound')){
      * @param int $code
      * @return \Illuminate\Http\JsonResponse
      */
-    function notFound($msg = '资源不存在',$code = Response::HTTP_NOT_FOUND){
+    function notFound($msg = '资源不存在',$code = 404){
         return apiResponse($res = [],$msg,$code,$header = []);
     }
 }
@@ -90,7 +90,7 @@ if(!function_exists('unAuthorized')){
      * @param int $code
      * @return \Illuminate\Http\JsonResponse
      */
-    function unAuthorized($msg = '认证失败',$code = Response::HTTP_UNAUTHORIZED){
+    function unAuthorized($msg = '认证失败',$code = 401){
         return apiResponse($res = [],$msg,$code,$header = []);
     }
 }
