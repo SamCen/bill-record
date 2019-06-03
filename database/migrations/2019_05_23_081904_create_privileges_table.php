@@ -14,12 +14,11 @@ class CreatePrivilegesTable extends Migration
     public function up()
     {
         Schema::create('privileges', function (Blueprint $table) {
-            $table->bigInteger('id');
-            $table->bigInteger('parent_id')->default(0);
-            $table->string('route')->comment('路由名称');
-            $table->string('name')->comment('权限菜单名称');
-            $table->string('type')->comment('权限菜单类型');
-            $table->string('icon')->nullable()->comment('菜单图标');
+            $table->string('code')->primary();
+            $table->string('parent_code')->nullable();
+            $table->string('name')->comment('权限名称');
+            $table->unsignedInteger('menu_id')->nullable()->comment('路由名称');
+            $table->string('type')->comment('权限菜单类型 menus:菜单 button:按钮');
         });
     }
 

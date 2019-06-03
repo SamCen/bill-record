@@ -15,8 +15,8 @@ class CreateRolePrivilegePivotTable extends Migration
     {
         Schema::create('role_privilege_pivot', function (Blueprint $table) {
             $table->integer('role_id');
-            $table->integer('privilege_id');
-            $table->unique(['role_id','privilege_id']);
+            $table->string('privilege_code');
+            $table->unique(['role_id','privilege_code']);
         });
     }
 

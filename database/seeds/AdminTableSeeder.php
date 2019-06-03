@@ -11,9 +11,38 @@ class AdminTableSeeder extends Seeder
      */
     public function run()
     {
+        $table = \Illuminate\Support\Facades\DB::table('admins');
         $data = [
             [
+                'id'=>1,
                 'account'=>'admin',
+                'password'=>bcrypt('123456'),
+                'last_login_ip'=>ip2long('127.0.0.1'),
+                'status'=>1,
+                'created_at'=>\Carbon\Carbon::now(),
+                'updated_at'=>\Carbon\Carbon::now(),
+            ],
+            [
+                'id'=>2,
+                'account'=>'account',
+                'password'=>bcrypt('123456'),
+                'last_login_ip'=>ip2long('127.0.0.1'),
+                'status'=>1,
+                'created_at'=>\Carbon\Carbon::now(),
+                'updated_at'=>\Carbon\Carbon::now(),
+            ],
+            [
+                'id'=>3,
+                'account'=>'role',
+                'password'=>bcrypt('123456'),
+                'last_login_ip'=>ip2long('127.0.0.1'),
+                'status'=>1,
+                'created_at'=>\Carbon\Carbon::now(),
+                'updated_at'=>\Carbon\Carbon::now(),
+            ],
+            [
+                'id'=>4,
+                'account'=>'account-role',
                 'password'=>bcrypt('123456'),
                 'last_login_ip'=>ip2long('127.0.0.1'),
                 'status'=>1,
@@ -21,6 +50,7 @@ class AdminTableSeeder extends Seeder
                 'updated_at'=>\Carbon\Carbon::now(),
             ]
         ];
-        \Illuminate\Support\Facades\DB::table('admins')->insert($data);
+        $table->truncate();
+        $table->insert($data);
     }
 }

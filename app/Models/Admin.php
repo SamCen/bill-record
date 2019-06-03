@@ -12,6 +12,12 @@ class Admin extends Authenticatable implements JWTSubject
     ];
 
     /**
+     * 禁用rememberToken
+     * @var string
+     */
+    protected $rememberTokenName = '';
+
+    /**
      * Author sam
      * DateTime 2019-05-22 17:19
      * Description:设置密码加密
@@ -57,5 +63,16 @@ class Admin extends Authenticatable implements JWTSubject
     public function getJWTCustomClaims()
     {
         return [];
+    }
+
+    /**
+     * Author sam
+     * DateTime 2019-06-03 10:24
+     * Description:用户和角色多对多关联
+     * @return \Illuminate\Database\Eloquent\Relations\BelongsToMany
+     */
+    public function roles()
+    {
+        return $this->belongsToMany(Role::class,'admin_role_pivot','admin_id','role_id');
     }
 }

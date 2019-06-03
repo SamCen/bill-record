@@ -4,7 +4,7 @@ use Illuminate\Support\Facades\Schema;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Database\Migrations\Migration;
 
-class CreateUserRolePivotTable extends Migration
+class CreateAdminRolePivotTable extends Migration
 {
     /**
      * Run the migrations.
@@ -13,10 +13,10 @@ class CreateUserRolePivotTable extends Migration
      */
     public function up()
     {
-        Schema::create('user_role_pivot', function (Blueprint $table) {
-            $table->integer('user_id');
+        Schema::create('admin_role_pivot', function (Blueprint $table) {
+            $table->integer('admin_id');
             $table->integer('role_id');
-            $table->unique(['user_id','role_id']);
+            $table->unique(['admin_id','role_id']);
         });
     }
 
@@ -27,6 +27,6 @@ class CreateUserRolePivotTable extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('user_role_pivot');
+        Schema::dropIfExists('admin_role_pivot');
     }
 }

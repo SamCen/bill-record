@@ -2,12 +2,16 @@
 
 namespace App\Http\Controllers\Admin\Auth;
 
+use App\Contract\RedisKey;
 use App\Http\Requests\Admin\Auth\LoginRequest;
 use App\Http\Controllers\Controller;
 use App\Models\Admin;
+use App\Models\Privilege;
 use Illuminate\Auth\EloquentUserProvider;
 use Illuminate\Contracts\Hashing\Hasher;
+use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Redis;
 
 class AuthController extends Controller
 {

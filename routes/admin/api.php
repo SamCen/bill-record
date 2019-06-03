@@ -15,6 +15,11 @@ use Illuminate\Support\Facades\Route;
 
 Route::group(['prefix'=>'auth','namespace'=>'Auth'],function(){
     Route::post('login','AuthController@login');
+    Route::post('logout','AuthController@logout');
+});
+
+Route::group(['prefix'=>'user','namespace'=>'User','middleware'=>['auth:admin']],function(){
+    Route::get('info','AdminController@getInfo');
 });
 
 
