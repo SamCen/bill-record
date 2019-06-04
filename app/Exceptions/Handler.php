@@ -11,6 +11,7 @@ use Illuminate\Http\Response;
 use Illuminate\Support\Arr;
 use Illuminate\Support\Facades\App;
 use Illuminate\Validation\ValidationException;
+use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
 use Symfony\Component\HttpKernel\Exception\UnauthorizedHttpException;
 
 class Handler extends ExceptionHandler
@@ -69,6 +70,8 @@ class Handler extends ExceptionHandler
             $exception instanceof GeneralException
             ||
             $exception instanceof ValidationException
+            ||
+            $exception instanceof NotFoundHttpException
         ) {
             /**
              * 主动抛出的异常
@@ -78,10 +81,17 @@ class Handler extends ExceptionHandler
             }
 
             /**
-             * 404异常
+             * 模型404异常
              */
             if ($exception instanceof ModelNotFoundException) {
-                return notFound();
+                return notFound('资源不存在');
+            }
+
+            /**
+             * 路由404异常
+             */
+            if ($exception instanceof NotFoundHttpException) {
+                return notFound('路由不存在');
             }
 
             /**
