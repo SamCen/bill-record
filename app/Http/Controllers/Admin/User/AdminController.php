@@ -5,7 +5,9 @@ namespace App\Http\Controllers\Admin\User;
 use App\Contract\RedisKey;
 use App\Http\Controllers\Controller;
 use App\Models\Admin;
+use App\Models\Menu;
 use App\Models\Privilege;
+use App\Tools\Tree;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Redis;
@@ -25,9 +27,17 @@ class AdminController extends Controller
          */
         $user = Auth::user();
         $menus = $this->getMenus($user);
-        return success($menus);
+        $user->menus = $menus;
+        return success($user);
     }
 
+    /**
+     * Author sam
+     * DateTime 2019-06-04 11:50
+     * Description:获取菜单
+     * @param $user
+     * @return array|\Illuminate\Support\Collection
+     */
     protected function getMenus($user)
     {
         $privileges = $this->getPrivileges($user);
@@ -38,7 +48,7 @@ class AdminController extends Controller
             $menus = [];
             foreach ($privileges as $privilege) {
                 if ($privilege->menu_id) {
-                    $menus[] = DB::table('menus')->where('id', $privilege->menu_id)->first();
+                    $menus[] = Menu::where('id',$privilege->menu_id)->first();
                 }
             }
             $menus = collect($menus);
@@ -49,6 +59,13 @@ class AdminController extends Controller
 
     }
 
+    /**
+     * Author sam
+     * DateTime 2019-06-04 11:49
+     * Description:获取用户的权限
+     * @param $user
+     * @return array|mixed
+     */
     protected function getPrivileges($user)
     {
         $redisKey = RedisKey::ADMIN_PRIVILEGES;
@@ -74,9 +91,18 @@ class AdminController extends Controller
         }
     }
 
+    /**
+     * Author sam
+     * DateTime 2019-06-04 11:49
+     * Description:生成菜单树
+     * @param $data
+     * @return array|\Illuminate\Support\Collection
+     */
     protected function buildMenus($data)
     {
         $menus = collect($data)->sortBy('id');
         $menus->values()->all();
+        $menus = Tree::getTree($menus);
+        return $menus;
     }
 }

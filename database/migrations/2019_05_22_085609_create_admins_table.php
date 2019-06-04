@@ -15,6 +15,7 @@ class CreateAdminsTable extends Migration
     {
         Schema::create('admins', function (Blueprint $table) {
             $table->bigIncrements('id');
+            $table->string('name')->comment('名称');
             $table->string('account')->unique()->comment('账号');
             $table->string('password')->comment('密码');
             $table->integer('last_login_ip')->nullable()->comment('上次登录ip');

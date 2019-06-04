@@ -8,7 +8,11 @@ use Tymon\JWTAuth\Contracts\JWTSubject;
 class Admin extends Authenticatable implements JWTSubject
 {
     protected $fillable = [
-        'account','password','last_login_ip','status'
+        'account','password','last_login_ip','status','name'
+    ];
+
+    protected $hidden = [
+        'password','created_at','updated_at'
     ];
 
     /**
@@ -47,7 +51,7 @@ class Admin extends Authenticatable implements JWTSubject
      */
     public function getLastLoginIpAttribute()
     {
-        return long2ip($this->last_login_ip);
+        return long2ip($this->attributes['last_login_ip']);
     }
     
     public function getJWTIdentifier()

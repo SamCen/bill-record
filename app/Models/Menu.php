@@ -27,6 +27,6 @@ class Menu extends Model
      */
     public function getMetaAttribute()
     {
-        return json_decode($this->meta,true);
+        return json_decode($this->attributes['meta'],true);
     }
 }
