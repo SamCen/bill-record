@@ -53,7 +53,13 @@ class Admin extends Authenticatable implements JWTSubject
     {
         return long2ip($this->attributes['last_login_ip']);
     }
-    
+
+
+    public function getStatusAttribute()
+    {
+        return !empty($this->attributes['status']);
+    }
+
     public function getJWTIdentifier()
     {
         return $this->getKey();

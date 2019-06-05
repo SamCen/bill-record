@@ -8,6 +8,8 @@ class Role extends Model
 {
     protected $fillable = ['name','is_admin'];
 
+    protected $hidden = ['pivot'];
+
     /**
      * Author sam
      * DateTime 2019-06-03 10:25

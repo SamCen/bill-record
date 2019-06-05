@@ -9,6 +9,7 @@ use App\Models\Admin;
 use App\Models\Menu;
 use App\Models\Privilege;
 use App\Tools\Tree;
+use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Redis;
 
@@ -117,11 +118,33 @@ class AdminController extends Controller
     {
         $size = $request->get('size',10);
         $status = $request->get('status');
+        $account = $request->get('account');
         $query = Admin::query();
         if($status){
             $query->where('status',$status);
         }
+        if($account){
+            $query->where('account','like',"%{$account}%");
+        }
         $list = $query->paginate($size);
         return success($list);
+    }
+
+    /**
+     * Author sam
+     * DateTime 2019-06-05 17:27
+     * Description:用户详情
+     * @param Admin $user
+     * @return \Illuminate\Http\JsonResponse
+     */
+    public function show(Admin $user)
+    {
+        $user->roles = $user->roles;
+        return success($user);
+    }
+
+    public function update(Request $request)
+    {
+
     }
 }
