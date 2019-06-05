@@ -2,16 +2,8 @@
 
 namespace App\Http\Controllers\Admin\Auth;
 
-use App\Contract\RedisKey;
-use App\Http\Requests\Admin\Auth\LoginRequest;
 use App\Http\Controllers\Controller;
-use App\Models\Admin;
-use App\Models\Privilege;
-use Illuminate\Auth\EloquentUserProvider;
-use Illuminate\Contracts\Hashing\Hasher;
-use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Auth;
-use Illuminate\Support\Facades\Redis;
+use App\Http\Requests\Admin\Auth\LoginRequest;
 
 class AuthController extends Controller
 {
@@ -20,10 +12,9 @@ class AuthController extends Controller
      * DateTime 2019-05-30 16:23
      * Description:登录获取token
      * @param LoginRequest $request
-     * @param Hasher $hasher
      * @return \Illuminate\Http\JsonResponse
      */
-    public function login(LoginRequest $request,Hasher $hasher)
+    public function login(LoginRequest $request)
     {
         $credentials = [
             'account'=>$request->get('account'),

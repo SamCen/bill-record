@@ -4,12 +4,12 @@ namespace App\Http\Controllers\Admin\User;
 
 use App\Contract\RedisKey;
 use App\Http\Controllers\Controller;
+use App\Http\Requests\Admin\User\AdminIndexRequest;
 use App\Models\Admin;
 use App\Models\Menu;
 use App\Models\Privilege;
 use App\Tools\Tree;
 use Illuminate\Support\Facades\Auth;
-use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Redis;
 
 class AdminController extends Controller
@@ -106,8 +106,22 @@ class AdminController extends Controller
         return $menus;
     }
 
-    public function index()
+    /**
+     * Author sam
+     * DateTime 2019-06-05 10:35
+     * Description:账号列表
+     * @param AdminIndexRequest $request
+     * @return \Illuminate\Http\JsonResponse
+     */
+    public function index(AdminIndexRequest $request)
     {
-        
+        $size = $request->get('size',10);
+        $status = $request->get('status');
+        $query = Admin::query();
+        if($status){
+            $query->where('status',$status);
+        }
+        $list = $query->paginate($size);
+        return success($list);
     }
 }
