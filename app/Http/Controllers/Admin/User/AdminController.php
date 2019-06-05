@@ -105,4 +105,9 @@ class AdminController extends Controller
         $menus = Tree::getTree($menus);
         return $menus;
     }
+
+    public function index()
+    {
+        
+    }
 }
