@@ -20,8 +20,10 @@ Route::group(['prefix'=>'auth','namespace'=>'Auth'],function(){
 
 Route::group(['prefix'=>'user','namespace'=>'User','middleware'=>['auth:admin']],function(){
     Route::get('info','AdminController@getInfo');
+    Route::put('updateRole/{user}','AdminController@updateRole');
 });
 Route::apiResource('user','User\AdminController')->middleware('auth:admin');
+Route::apiResource('role','Role\RoleController')->middleware('auth:admin');
 
 
 Route::any('test','\App\Http\Controllers\TestController@test');

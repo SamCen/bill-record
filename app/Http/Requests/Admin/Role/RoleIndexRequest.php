@@ -1,10 +1,10 @@
 <?php
 
-namespace App\Http\Requests\Admin\User;
+namespace App\Http\Requests\Admin\Role;
 
 use Illuminate\Foundation\Http\FormRequest;
 
-class AdminIndexRequest extends FormRequest
+class RoleIndexRequest extends FormRequest
 {
     /**
      * Determine if the user is authorized to make this request.
@@ -24,18 +24,16 @@ class AdminIndexRequest extends FormRequest
     public function rules()
     {
         return [
-            'page'=>'required|integer',
-            'size'=>'required|integer',
+            'page'=>'integer',
+            'size'=>'integer',
         ];
     }
 
     public function messages()
     {
         return [
-            'page.required' => '缺少页码',
-            'size.required' => '缺少每页数量',
-            'page.integer' => '页码只能为整数',
-            'size.integer' => '每页数量只能为整数',
+            'page.integer'=>'页码只能为整数',
+            'size.integer'=>'每页数量只能为整数',
         ];
     }
 }

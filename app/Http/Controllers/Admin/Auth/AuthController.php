@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Admin\Auth;
 
 use App\Http\Controllers\Controller;
 use App\Http\Requests\Admin\Auth\LoginRequest;
+use App\Models\Admin;
 
 class AuthController extends Controller
 {
@@ -19,6 +20,7 @@ class AuthController extends Controller
         $credentials = [
             'account'=>$request->get('account'),
             'password'=>$request->get('password'),
+            'status' => Admin::STATUS_ENABLE,
         ];
         if (! $token = auth('admin')->attempt($credentials)) {
             return error('账号或密码不正确',401);

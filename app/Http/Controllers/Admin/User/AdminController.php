@@ -120,13 +120,14 @@ class AdminController extends Controller
         $status = $request->get('status');
         $account = $request->get('account');
         $query = Admin::query();
-        if($status){
+        if($status==='0'||$status){
             $query->where('status',$status);
         }
         if($account){
             $query->where('account','like',"%{$account}%");
         }
-        $list = $query->paginate($size);
+
+        $list = $query->where('id','>',1)->paginate($size);
         return success($list);
     }
 
@@ -143,8 +144,38 @@ class AdminController extends Controller
         return success($user);
     }
 
-    public function update(Request $request)
+    /**
+     * Author sam
+     * DateTime 2019-06-10 15:39
+     * Description:修改用户信息
+     * @param Request $request
+     * @param Admin $user
+     * @return \Illuminate\Http\JsonResponse
+     */
+    public function update(Request $request,Admin $user)
     {
+        $data['account'] = $request->get('account');
+        $data['name'] = $request->get('name');
+        $data['status'] = $request->get('status')?1:0;
+        if($request->get('password')){
+            $data['password'] = $request->get('password');
+        }
+        $user->updateLogic($data);
+        return success($data);
+    }
 
+    /**
+     * Author sam
+     * DateTime 2019-06-10 16:20
+     * Description:修改用户关联角色
+     * @param Request $request
+     * @param Admin $user
+     * @return \Illuminate\Http\JsonResponse
+     */
+    public function updateRole(Request $request,Admin $user)
+    {
+        $roles = $request->get('roles');
+        $user->roles()->sync($roles);
+        return success();
     }
 }

@@ -2,11 +2,17 @@
 
 namespace App\Models;
 
+use App\Models\Traits\ModelAssistTrait;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Tymon\JWTAuth\Contracts\JWTSubject;
 
 class Admin extends Authenticatable implements JWTSubject
 {
+
+    const STATUS_ENABLE = 1;
+    const STATUS_DISABLE = 0;
+
+    use ModelAssistTrait;
     protected $fillable = [
         'account','password','last_login_ip','status','name'
     ];
