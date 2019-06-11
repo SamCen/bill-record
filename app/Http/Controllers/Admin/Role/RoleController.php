@@ -20,10 +20,15 @@ class RoleController extends Controller
     {
         $page = $request->get('page',null);
         $size = $request->get('size',null);
+        $with = $request->get('with',null);
+        $query = Role::query();
+        if(!empty($with)){
+            $query->with($with);
+        }
         if(!empty($page)&&!empty($size)){
-            $list = Role::query()->paginate($size);
+            $list = $query->paginate($size);
         }else{
-            $list = Role::query()->get();
+            $list = $query->get();
         }
         return success($list);
     }
@@ -40,14 +45,16 @@ class RoleController extends Controller
     }
 
     /**
-     * Display the specified resource.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
+     * Author sam
+     * DateTime 2019-06-11 12:15
+     * Description:角色详情
+     * @param $role
+     * @return \Illuminate\Http\JsonResponse
      */
-    public function show($id)
+    public function show($role)
     {
-        //
+        $role = Role::query()->with('privileges')->find($role);
+        return success($role);
     }
 
     /**

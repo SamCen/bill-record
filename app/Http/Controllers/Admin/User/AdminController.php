@@ -5,6 +5,7 @@ namespace App\Http\Controllers\Admin\User;
 use App\Contract\RedisKey;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\Admin\User\AdminIndexRequest;
+use App\Http\Requests\Admin\User\AdminStoreRequest;
 use App\Models\Admin;
 use App\Models\Menu;
 use App\Models\Privilege;
@@ -127,7 +128,7 @@ class AdminController extends Controller
             $query->where('account','like',"%{$account}%");
         }
 
-        $list = $query->where('id','>',1)->paginate($size);
+        $list = $query->where('id','>',1)->orderByDesc('created_at')->paginate($size);
         return success($list);
     }
 
@@ -177,5 +178,17 @@ class AdminController extends Controller
         $roles = $request->get('roles');
         $user->roles()->sync($roles);
         return success();
+    }
+
+
+    public function store(AdminStoreRequest $request)
+    {
+        $data['account'] = $request->get('account');
+        $data['password'] = $request->get('password');
+        $data['name'] = $request->get('name');
+        $data['status'] = $request->get('status')?1:0;
+        $data['roles'] = $request->get('roles');
+        $admin = Admin::createAdmin($data);
+        return success($admin);
     }
 }

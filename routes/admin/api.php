@@ -24,6 +24,6 @@ Route::group(['prefix'=>'user','namespace'=>'User','middleware'=>['auth:admin']]
 });
 Route::apiResource('user','User\AdminController')->middleware('auth:admin');
 Route::apiResource('role','Role\RoleController')->middleware('auth:admin');
-
+Route::get('privilege','Privilege\PrivilegeController@index')->middleware('auth:admin');
 
 Route::any('test','\App\Http\Controllers\TestController@test');

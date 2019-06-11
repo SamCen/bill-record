@@ -15,21 +15,21 @@ class PrivilegeTableSeeder extends Seeder
         $data = [
             [
                 'code'=>'home',
-                'parent_code'=>null,
+                'parent_code'=>'base',
                 'name'=>'首页权限',
                 'menu_id'=>1,
                 'type'=>'menu',
             ],
             [
                 'code'=>'admin',
-                'parent_code'=>null,
+                'parent_code'=>'base',
                 'name'=>'账号管理权限',
                 'menu_id'=>2,
                 'type'=>'menu',
             ],
             [
                 'code'=>'role',
-                'parent_code'=>null,
+                'parent_code'=>'base',
                 'name'=>'角色管理权限',
                 'menu_id'=>3,
                 'type'=>'menu',
@@ -58,7 +58,7 @@ class PrivilegeTableSeeder extends Seeder
             [
                 'code'=>'admin-delete',
                 'parent_code'=>'admin',
-                'name'=>'账号修改权限',
+                'name'=>'账号删除权限',
                 'menu_id'=>null,
                 'type'=>'button',
             ],

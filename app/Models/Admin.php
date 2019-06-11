@@ -2,8 +2,11 @@
 
 namespace App\Models;
 
+use App\Exceptions\GeneralException;
 use App\Models\Traits\ModelAssistTrait;
 use Illuminate\Foundation\Auth\User as Authenticatable;
+use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Log;
 use Tymon\JWTAuth\Contracts\JWTSubject;
 
 class Admin extends Authenticatable implements JWTSubject
@@ -90,5 +93,35 @@ class Admin extends Authenticatable implements JWTSubject
     public function roles()
     {
         return $this->belongsToMany(Role::class,'admin_role_pivot','admin_id','role_id');
+    }
+
+    /**
+     * Author sam
+     * DateTime 2019-06-11 10:17
+     * Description:添加用户
+     * @param $data
+     * @return Admin|\Illuminate\Database\Eloquent\Builder|\Illuminate\Database\Eloquent\Model
+     * @throws GeneralException
+     */
+    public static function createAdmin($data)
+    {
+        if(!empty($data['roles'])){
+            DB::beginTransaction();
+            try{
+                /**
+                 * @var $admin Admin
+                 */
+                $admin = self::query()->create($data);
+                $admin->roles()->sync($data['roles']);
+                DB::commit();
+            }catch (\Exception $e){
+                Log::error('添加用户失败：'.$e->getMessage());
+                DB::rollBack();
+                throw new GeneralException('服务器错误');
+            }
+        }else{
+            $admin = self::query()->create($data);
+        }
+        return $admin;
     }
 }

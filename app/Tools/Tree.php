@@ -29,7 +29,7 @@ class Tree
         $tree = array();
         foreach ($data as $k => $v){
             if($v[$parentKey] == $pid){
-                $v[$childKey] = self::getTree($data,$v[$priKey])?:null;
+                $v[$childKey] = self::getTree($data,$v[$priKey],$priKey,$parentKey,$childKey)?:null;
                 $tree[] = $v;
             }
         }
