@@ -16,7 +16,7 @@ class Menu extends Model
      */
     public function setMetaAttribute($value)
     {
-        $this->attributes['meta'] = json_encode($value);
+        $this->attributes['meta'] = json_encode($value,JSON_UNESCAPED_UNICODE);
     }
 
     /**

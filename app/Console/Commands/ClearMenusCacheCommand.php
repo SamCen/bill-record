@@ -20,7 +20,7 @@ class ClearMenusCacheCommand extends Command
      *
      * @var string
      */
-    protected $description = 'Command description';
+    protected $description = 'Flush admin menus cache';
 
     /**
      * Create a new command instance.
