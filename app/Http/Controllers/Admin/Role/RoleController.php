@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Admin\Role;
 
 use App\Http\Requests\Admin\Role\RoleIndexRequest;
 use App\Models\Role;
+use App\Tools\Tree;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 
@@ -54,6 +55,8 @@ class RoleController extends Controller
     public function show($role)
     {
         $role = Role::query()->with('privileges')->find($role);
+        $role->rolePrivileges =  Tree::getTree($role->privileges->toArray());
+        unset($role->privileges);
         return success($role);
     }
 
@@ -78,5 +81,12 @@ class RoleController extends Controller
     public function destroy($id)
     {
         //
+    }
+
+    public function updatePri(Request $request,Role $role)
+    {
+        $renew = $request->get('renew');
+        $role->privileges()->sync($renew);
+        return success();
     }
 }

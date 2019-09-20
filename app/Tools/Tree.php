@@ -24,7 +24,7 @@ class Tree
      * @param string $childKey
      * @return array
      */
-    public static function getTree($data,$pid = 0,$priKey = 'id',$parentKey = 'parent_id',$childKey = 'children')
+    public static function getTree($data,$pid = 'base',$priKey = 'code',$parentKey = 'parent_code',$childKey = 'children')
     {
         $tree = array();
         foreach ($data as $k => $v){
