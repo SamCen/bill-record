@@ -26,6 +26,7 @@ class RoleController extends Controller
         if(!empty($with)){
             $query->with($with);
         }
+        $query->where('id','>',1);
         if(!empty($page)&&!empty($size)){
             $list = $query->paginate($size);
         }else{

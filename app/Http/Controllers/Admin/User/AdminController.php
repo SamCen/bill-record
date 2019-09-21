@@ -104,7 +104,7 @@ class AdminController extends Controller
     {
         $menus = collect($data)->sortBy('id');
         $menus->values()->all();
-        $menus = Tree::getTree($menus);
+        $menus = Tree::getTree($menus,0,'id','parent_id');
         return $menus;
     }
 
