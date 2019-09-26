@@ -2,10 +2,13 @@
 
 namespace App\Models;
 
+use App\Models\Traits\ModelAssistTrait;
 use Illuminate\Database\Eloquent\Model;
 
 class Role extends Model
 {
+    use ModelAssistTrait;
+
     protected $fillable = ['name','is_admin'];
 
     protected $hidden = ['pivot'];

@@ -26,7 +26,6 @@ class RoleController extends Controller
         if(!empty($with)){
             $query->with($with);
         }
-        $query->where('id','>',1);
         if(!empty($page)&&!empty($size)){
             $list = $query->paginate($size);
         }else{
@@ -36,14 +35,17 @@ class RoleController extends Controller
     }
 
     /**
-     * Store a newly created resource in storage.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @return \Illuminate\Http\Response
+     * Author sam
+     * DateTime 2019-09-26 14:35
+     * Description:添加角色
+     * @param Request $request
+     * @return \Illuminate\Http\JsonResponse
      */
     public function store(Request $request)
     {
-        //
+        $params = $request->all();
+        Role::query()->create($params);
+        return success();
     }
 
     /**
@@ -62,26 +64,42 @@ class RoleController extends Controller
     }
 
     /**
-     * Update the specified resource in storage.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
+     * Author sam
+     * DateTime 2019-09-26 14:16
+     * Description:修改角色信息
+     * @param Request $request
+     * @param $id
+     * @return \Illuminate\Http\JsonResponse
      */
     public function update(Request $request, $id)
     {
-        //
+        $params = $request->except('id');
+        /**
+         * @var $role Role
+         */
+        $role = Role::query()->find($id);
+        $role->updateLogic($params);
+        return success($params);
     }
 
     /**
-     * Remove the specified resource from storage.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
+     * Author sam
+     * DateTime 2019-09-26 14:39
+     * Description:删除角色
+     * @param $id
+     * @return \Illuminate\Http\JsonResponse
      */
     public function destroy($id)
     {
-        //
+        /**
+         * @var $role Role
+         */
+        $role = Role::query()->with('admins')->find($id);
+        if($role->admins->isNotEmpty()){
+            return error('该角色下有账号关联');
+        }
+        Role::destroy($id);
+        return success();
     }
 
     public function updatePri(Request $request,Role $role)
