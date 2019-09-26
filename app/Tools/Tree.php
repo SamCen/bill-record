@@ -15,10 +15,10 @@ class Tree
 {
     /**
      * Author sam
-     * DateTime 2019-06-04 11:28
-     * Description:递归生成树状结构
+     * DateTime 2019-09-26 17:53
+     * Description:
      * @param $data
-     * @param int $pid
+     * @param string $pid
      * @param string $priKey
      * @param string $parentKey
      * @param string $childKey

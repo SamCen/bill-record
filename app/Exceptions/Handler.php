@@ -2,6 +2,7 @@
 
 namespace App\Exceptions;
 
+use App\Tools\Notice;
 use Exception;
 use Illuminate\Auth\AuthenticationException;
 use Illuminate\Database\Eloquent\ModelNotFoundException;
@@ -49,11 +50,12 @@ class Handler extends ExceptionHandler
 
     /**
      * Author sam
-     * DateTime 2019-05-30 13:53
+     * DateTime 2019-09-26 18:49
      * Description:拦截异常
      * @param \Illuminate\Http\Request $request
      * @param Exception $exception
-     * @return \Illuminate\Http\Response|\Symfony\Component\HttpFoundation\Response
+     * @return \Illuminate\Http\JsonResponse|\Illuminate\Http\Response|\Symfony\Component\HttpFoundation\Response
+     * @throws \GuzzleHttp\Exception\GuzzleException
      */
     public function render($request, Exception $exception)
     {
@@ -123,6 +125,15 @@ class Handler extends ExceptionHandler
         }else{
             $app = App::environment();
             if($app != 'local'){
+                $route = $request->getRequestUri();
+                $method = $request->getMethod();
+                $trace = env('TRACE',null);
+                if($trace){
+                    $msg = "{$app}预警\r\n请求路由：{$route}\r\n请求方法：{$method}\r\n错误码：{$exception->getCode()}\r\n文件：{$exception->getFile()}\r\n行数：{$exception->getLine()}\r\n信息：{$exception->getMessage()}\r\n追踪：{$exception->getTraceAsString()}";
+                }else{
+                    $msg = "{$app}预警\r\n请求路由：{$route}\r\n请求方法：{$method}\r\n错误码：{$exception->getCode()}\r\n文件：{$exception->getFile()}\r\n行数：{$exception->getLine()}\r\n信息：{$exception->getMessage()}";
+                }
+                Notice::wxSend($msg);
                 return error('服务器错误',500);
             }
         }
