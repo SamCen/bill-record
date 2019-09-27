@@ -175,6 +175,11 @@ return [
         App\Providers\EventServiceProvider::class,
         App\Providers\RouteServiceProvider::class,
 
+        /**
+         * 预警服务
+         */
+        App\Providers\NoticeSerciceProvider::class,
+
     ],
 
     /*
@@ -225,6 +230,8 @@ return [
         'URL' => Illuminate\Support\Facades\URL::class,
         'Validator' => Illuminate\Support\Facades\Validator::class,
         'View' => Illuminate\Support\Facades\View::class,
+        /*预警服务别名*/
+        'Notice'=>\App\Facades\Notice::class
 
     ],
 

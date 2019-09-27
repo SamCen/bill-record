@@ -8,12 +8,31 @@
 namespace App\Tools;
 
 
+use App\Exceptions\GeneralException;
 use GuzzleHttp\Client;
+use Illuminate\Support\Facades\Log;
 
 class Notice
 {
-    const WX_URI = 'https://qyapi.weixin.qq.com/';
-    const WX_URL = 'cgi-bin/webhook/send?key=f64e0dc8-a33c-47b5-a514-aad78fd5f88a';
+    private $wx_uri;
+    private $wx_url;
+
+    /**
+     * Notice constructor.
+     * @param array $config
+     * @throws GeneralException
+     */
+    public function __construct(array $config)
+    {
+        if(empty($config['wx_uri'])){
+            throw new GeneralException('config error');
+        }
+        if(empty($config['wx_url'])){
+            throw new GeneralException('config error');
+        }
+        $this->wx_uri = $config['wx_uri'];
+        $this->wx_url = $config['wx_url'];
+    }
 
     /**
      * Author sam
@@ -22,7 +41,7 @@ class Notice
      * @param $msg
      * @throws \GuzzleHttp\Exception\GuzzleException
      */
-    public static function wxSend($msg)
+    public function wxSend($msg)
     {
         $postData = [
             'msgtype'=>'text',
@@ -32,7 +51,7 @@ class Notice
             ],
         ];
         $postData = json_encode($postData,JSON_UNESCAPED_UNICODE);
-        $client = new Client(['base_uri'=>self::WX_URI,'time_out'=>5.0]);
-        $client->request('POST',self::WX_URL,['headers'=>['Content-Type'=>'applications/json;charset=utf-8'],'body'=>$postData,'verify'=>false]);
+        $client = new Client(['base_uri'=>$this->wx_uri,'time_out'=>5.0]);
+        $client->request('POST',$this->wx_url,['headers'=>['Content-Type'=>'applications/json;charset=utf-8'],'body'=>$postData,'verify'=>false]);
     }
 }

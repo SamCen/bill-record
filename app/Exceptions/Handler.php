@@ -2,7 +2,7 @@
 
 namespace App\Exceptions;
 
-use App\Tools\Notice;
+use App\Facades\Notice;
 use Exception;
 use Illuminate\Auth\AuthenticationException;
 use Illuminate\Database\Eloquent\ModelNotFoundException;

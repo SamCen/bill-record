@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers\Admin\Role;
 
+use App\Facades\Notice;
 use App\Http\Requests\Admin\Role\RoleIndexRequest;
 use App\Models\Role;
 use App\Tools\Tree;
