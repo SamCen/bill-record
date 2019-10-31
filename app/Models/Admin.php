@@ -9,6 +9,19 @@ use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Log;
 use Tymon\JWTAuth\Contracts\JWTSubject;
 
+/**
+ * App\Models\Admin
+ *
+ * @property string $last_login_ip
+ * @property-read mixed $status
+ * @property-read \Illuminate\Database\Eloquent\Collection|\App\Models\Role[] $roles
+ * @property-read int|null $roles_count
+ * @property-write mixed $password
+ * @method static \Illuminate\Database\Eloquent\Builder|\App\Models\Admin newModelQuery()
+ * @method static \Illuminate\Database\Eloquent\Builder|\App\Models\Admin newQuery()
+ * @method static \Illuminate\Database\Eloquent\Builder|\App\Models\Admin query()
+ * @mixin \Eloquent
+ */
 class Admin extends Authenticatable implements JWTSubject
 {
 

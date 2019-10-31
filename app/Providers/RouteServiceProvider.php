@@ -4,6 +4,7 @@ namespace App\Providers;
 
 use Illuminate\Support\Facades\Route;
 use Illuminate\Foundation\Support\Providers\RouteServiceProvider as ServiceProvider;
+use Illuminate\Support\Str;
 
 class RouteServiceProvider extends ServiceProvider
 {
@@ -14,7 +15,8 @@ class RouteServiceProvider extends ServiceProvider
      *
      * @var string
      */
-    protected $adminNamespace = 'App\Http\Controllers\Admin';
+    protected $adminNamespace = 'App\Http\Controllers\Admin';//后台api
+    protected $miniAppNamespace = 'App\Http\Controllers\MiniApp';//小程序api
 
     /**
      * Define your route model bindings, pattern filters, etc.
@@ -35,11 +37,12 @@ class RouteServiceProvider extends ServiceProvider
      */
     public function map()
     {
-        $this->adminApiRoutes();
-
+        if(Str::is(config('route.admin_domain').'.*',request()->getHost()??'')){
+            $this->adminApiRoutes();
+        }else{
+            $this->miniAppApiRoutes();
+        }
 //        $this->mapWebRoutes();
-
-        //
     }
 
     /**
@@ -68,6 +71,14 @@ class RouteServiceProvider extends ServiceProvider
         Route::prefix('backend')
              ->middleware('api')
              ->namespace($this->adminNamespace)
-             ->group(base_path('routes/admin/api.php'));
+             ->group(base_path('routes/admin-api.php'));
+    }
+
+    protected function miniAppApiRoutes()
+    {
+        Route::prefix('backend')
+            ->middleware('api')
+            ->namespace($this->miniAppNamespace)
+            ->group(base_path('routes/mini-app-api.php'));
     }
 }

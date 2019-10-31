@@ -70,6 +70,7 @@ class AdminController extends Controller
      */
     protected function getPrivileges($user)
     {
+
         $redisKey = RedisKey::ADMIN_PRIVILEGES;
         if ($privileges = Redis::hget($redisKey, $user->id)) {
             return json_decode($privileges);
@@ -141,7 +142,7 @@ class AdminController extends Controller
      */
     public function show(Admin $user)
     {
-        $user->roles = $user->roles;
+        $user->userRoles = $user->roles;
         return success($user);
     }
 
