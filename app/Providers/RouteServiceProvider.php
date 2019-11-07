@@ -76,7 +76,7 @@ class RouteServiceProvider extends ServiceProvider
 
     protected function miniAppApiRoutes()
     {
-        Route::prefix('backend')
+        Route::prefix('app')
             ->middleware('api')
             ->namespace($this->miniAppNamespace)
             ->group(base_path('routes/mini-app-api.php'));

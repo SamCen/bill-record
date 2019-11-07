@@ -17,5 +17,6 @@ class DatabaseSeeder extends Seeder
         $this->call(RolePrivilegePivotTableSeeder::class);
         $this->call(MenuTableSeeder::class);
         $this->call(AdminRolePivotTableSeeder::class);
+        $this->call(UserTableSeeder::class);
     }
 }

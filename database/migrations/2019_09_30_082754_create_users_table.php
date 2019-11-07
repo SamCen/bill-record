@@ -15,9 +15,11 @@ class CreateUsersTable extends Migration
     {
         Schema::create('users', function (Blueprint $table) {
             $table->bigIncrements('id');
-            $table->string('account')->comment('账号');
-            $table->string('password')->comment('密码');
-            $table->string('last_login_ip')->nullable()->comment('上次登录ip');
+            $table->char('mobile',11)->nullable()->comment('手机');
+            $table->string('password')->nullable()->comment('密码');
+            $table->string('openid')->default('')->comment('微信openid');
+            $table->string('nickname')->comment('昵称');
+            $table->unsignedInteger('last_login_ip')->nullable()->comment('上次登录ip');
             $table->timestamps();
         });
     }

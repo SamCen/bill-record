@@ -25,7 +25,9 @@ use Tymon\JWTAuth\Contracts\JWTSubject;
 class Admin extends Authenticatable implements JWTSubject
 {
 
+    //启用
     const STATUS_ENABLE = 1;
+    //禁用
     const STATUS_DISABLE = 0;
 
     use ModelAssistTrait;
@@ -94,7 +96,7 @@ class Admin extends Authenticatable implements JWTSubject
      */
     public function getJWTCustomClaims()
     {
-        return [];
+        return ['role' => 'admin'];
     }
 
     /**

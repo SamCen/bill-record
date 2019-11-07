@@ -15,15 +15,15 @@ use Illuminate\Support\Facades\Route;
 
 Route::group(['prefix'=>'auth','namespace'=>'Auth'],function(){
     Route::post('login','AuthController@login');
-    Route::post('logout','AuthController@logout')->middleware('auth:admin');
+    Route::post('logout','AuthController@logout')->middleware(['auth.role:admin','auth:admin']);
 });
 
-Route::group(['prefix'=>'user','namespace'=>'User','middleware'=>['auth:admin']],function(){
+Route::group(['prefix'=>'user','namespace'=>'User','middleware'=>['auth.role:admin','auth:admin']],function(){
     Route::get('info','AdminController@getInfo');
     Route::put('updateRole/{user}','AdminController@updateRole');
 });
-Route::apiResource('user','User\AdminController')->middleware('auth:admin');
-Route::apiResource('role','Role\RoleController')->middleware('auth:admin');
-Route::get('privilege','Privilege\PrivilegeController@index')->middleware('auth:admin');
-Route::put('updatePri/{role}','Role\RoleController@updatePri')->middleware('auth:admin');
+Route::apiResource('user','User\AdminController')->middleware(['auth.role:admin','auth:admin']);
+Route::apiResource('role','Role\RoleController')->middleware(['auth.role:admin','auth:admin']);
+Route::get('privilege','Privilege\PrivilegeController@index')->middleware(['auth.role:admin','auth:admin']);
+Route::put('updatePri/{role}','Role\RoleController@updatePri')->middleware(['auth.role:admin','auth:admin']);
 Route::any('test','\App\Http\Controllers\TestController@test');
